@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.http import HttpResponse  # ✅ Import HttpResponse for a simple response
 
 def home(request):
-    return HttpResponse("Welcome to the API. Use /student_api/students/ or /student_api/subjects/")
+    return HttpResponse("Welcome to the API")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
