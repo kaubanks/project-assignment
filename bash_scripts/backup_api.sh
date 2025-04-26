@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/bin/bash 
 
 BACKUP_DIR="/home/ubuntu/backups"
-API_DIR="/var/www/your_api"  # change this path
-DB_NAME="your_db_name"       # replace with actual DB name
+API_DIR="/project-assignment"  # Ensure this path is correct
+DB_NAME="your_db_name"         # Replace with your actual database name
+DB_USER="your_db_user"         # Replace with your actual database username
+DB_PASSWORD="your_db_password" # Replace with your actual database password
 LOG_FILE="/var/log/backup.log"
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
@@ -12,8 +14,9 @@ mkdir -p $BACKUP_DIR
 tar -czf "$BACKUP_DIR/api_backup_$(date +%F).tar.gz" $API_DIR
 API_STATUS=$?
 
-# Backup database
-mysqldump -u root -pYourPassword $DB_NAME > "$BACKUP_DIR/db_backup_$(date +%F).sql"
+# Backup PostgreSQL database
+export PGPASSWORD=$DB_PASSWORD
+pg_dump -U $DB_USER $DB_NAME > "$BACKUP_DIR/db_backup_$(date +%F).sql"
 DB_STATUS=$?
 
 # Delete old backups
@@ -29,7 +32,9 @@ fi
 
 if [ $DB_STATUS -eq 0 ]; then
     echo "Database backup successful." >> $LOG_FILE
-else
+else  
     echo "ERROR: Database backup failed!" >> $LOG_FILE
 fi
+
 echo "------------------------------------------" >> $LOG_FILE
+
