@@ -27,3 +27,4 @@ echo "Web server restarted." >> $LOG_FILE
 
 echo "Update completed successfully." >> $LOG_FILE
 echo "------------------------------------------" >> $LOG_FILE
+
